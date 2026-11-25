@@ -1,52 +1,52 @@
-# EDA zgłoszeń kolizji ze zwierzętami
+# Wildlife Strikes EDA
 
-Projekt zawiera eksploracyjną analizę danych z pliku `database.csv`. Każdy wiersz
-reprezentuje zgłoszenie; szczegółowe znaczenie kodów i jednostek wymaga
-zewnętrznego słownika danych, którego nie ma w tym zbiorze.
+Exploratory analysis of wildlife strike reports from the
+[FAA Wildlife Strikes dataset on Kaggle](https://www.kaggle.com/datasets/faa/wildlife-strikes?resource=download).
+Each row represents a reported incident.
 
-## Struktura
+## Project structure
 
 ```text
 .
 ├── data/
-│   └── database.csv       # oryginalne dane wejściowe
-├── eda.ipynb              # analiza i wizualizacje
-├── pyproject.toml         # zależności projektu
-├── uv.lock                # zablokowane wersje zależności
-└── .python-version        # wersja Pythona dla uv
+│   └── database.csv    # original dataset
+├── eda.ipynb           # analysis and visualizations
+├── pyproject.toml      # project dependencies
+├── uv.lock             # locked dependency versions
+└── .python-version     # Python version used by uv
 ```
 
-## Uruchomienie
+## Run
 
-Potrzebne jest [uv](https://docs.astral.sh/uv/). W katalogu projektu:
+Install [uv](https://docs.astral.sh/uv/), then run from the project root:
 
 ```powershell
 uv sync
 uv run jupyter lab
 ```
 
-Otwórz `eda.ipynb` i uruchom komórki po kolei. W VS Code wybierz kernel
-Pythona ze środowiska `.venv`. Notatnik szuka danych względem katalogu
-projektu, dlatego uruchom Jupyter z jego katalogu głównego.
-Notatnik zawiera angielskie opisy, macierz korelacji oraz przykłady zgłoszeń
-dotyczących m.in. żółwi, aligatorów, węży i niedźwiedzi.
-Sekcja żółwi pokazuje wszystkie pasujące zgłoszenia z pełnego zbioru, niezależnie
-od analizy korelacji. `turtle_reports` przechowuje wszystkie ich kolumny.
-Analiza żółwi porównuje lata i stany oraz pokazuje udział zgłoszeń o żółwiach
-wśród wszystkich zgłoszeń w poszczególnych latach.
-Obejmuje też lotniska, sezonowość, zmiany zgłoszonych gatunków i jakość danych
-w czasie. Niepełne lata i mała liczba zgłoszeń ograniczają porównywalność.
+Open `eda.ipynb` and run the cells in order. In VS Code, select the `.venv`
+kernel. Run Jupyter from the project root so the notebook can find the data.
 
-## Ograniczenia
+## Analysis
 
-- Liczba zgłoszeń nie jest miarą ryzyka kolizji: brak danych o liczbie operacji
-  lotniczych, zmianach raportowania i kompletności poszczególnych lat.
-- Brak wartości nie oznacza zera. W szczególności nie należy traktować pustych
-  pól dotyczących ofiar i rannych jako potwierdzenia ich braku.
-- Wykresy udziału uszkodzeń wykorzystują wyłącznie rekordy z wartością 0 lub 1
-  w kolumnie `Aircraft Damage`. Kody i jednostki nie są interpretowane bez
-  słownika danych.
-- Macierz korelacji Pearsona obejmuje wszystkie wiersze z kompletnymi wartościami
-  `Height`, `Speed` i `Distance`; pominięcie braków może wpływać na wyniki.
-  `complete_records` zawiera te same wiersze z wszystkimi
-  kolumnami źródłowymi; w pozostałych kolumnach mogą występować braki.
+- Data types, missing values, duplicates and reporting trends.
+- Airports, animals, flight phases and reported aircraft damage.
+- Pearson correlations between height, speed and distance for all rows with
+  those three values present.
+- All matching turtle reports, analyzed separately by year, state, airport,
+  month and species, including changes in data quality over time.
+
+The notebook stores the full turtle records in `turtle_reports` and the
+complete correlation records in `complete_records`.
+
+## Notes
+
+- Report counts are not collision rates per flight. Reporting practices may
+  change, and the dataset ends in September 2015.
+- Missing values are not zero. In particular, missing injury or fatality
+  values do not confirm that nobody was hurt.
+- Damage rates use only known 0/1 values in `Aircraft Damage`.
+- Other columns in the correlation records may still have missing values.
+- Turtle counts are small, so yearly and regional comparisons can be unstable.
+- Field definitions, codes and units should be checked against the source documentation.
