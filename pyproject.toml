@@ -1,0 +1,13 @@
+[project]
+name = "wildlife-strikes-eda"
+version = "0.1.0"
+description = "Exploratory analysis of wildlife strike reports"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "ipykernel>=6.29",
+    "jupyterlab>=4.2",
+    "matplotlib>=3.9",
+    "nbconvert>=7.16",
+    "pandas>=2.2",
+    "seaborn>=0.13",
+]
